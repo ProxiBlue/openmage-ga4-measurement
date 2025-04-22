@@ -247,22 +247,7 @@ class Hirale_GAMeasurementProtocol_Model_Observer
                 $events = array_merge($events, $searchEvents);
                 break;
         }
-        $response = $observer->getEvent()->getApp()->getResponse();
-        $body = substr($response->getBody(), 0, 100);
-        $statusCode = $response->getHttpResponseCode();
-        if (strpos($body, '<!DOCTYPE html') !== false && $statusCode == 200) {
-            array_push(
-                $events,
-                [
-                    'name' => 'page_view',
-                    'params' => [
-                        'engagement_time_msec' => 1,
-                        'page_location' => Mage::helper('core/url')->getCurrentUrl(),
-                        'page_title' => Mage::app()->getLayout()->getBlock('head')->getTitle()
-                    ]
-                ]
-            );
-        }
+        
         if ($events) {
             $eventData['events'] = $events;
             $this->addToQueue($eventData);
